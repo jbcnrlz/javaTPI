@@ -1,0 +1,66 @@
+package dados;
+
+public class Carro {
+	
+	private String marca;
+	private String modelo;
+	private int ano;
+	private String cor;
+	
+	public Carro(String m, String mo, int ano, String cor) {
+		this.setMarca(m);
+		this.setModelo(mo);
+		this.setAno(ano);
+		this.setCor(cor);
+	}
+	
+	@Override
+	public String toString() {
+		String retorno = this.getMarca() ;
+		retorno = retorno + " - " + this.getModelo();
+		retorno = retorno + " - " + Integer.toString(this.getAno());
+		retorno = retorno + " - " + this.getCor();
+		return retorno;
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		Carro cComp = Carro.class.cast(obj);		
+		if (
+			(this.getAno() == cComp.getAno()) &&
+			(this.getCor().equals(cComp.getCor())) &&
+			(this.getMarca().equals(cComp.getMarca())) &&
+			(this.getModelo().equals(cComp.getModelo()))
+		) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+	
+	public String getMarca() {
+		return marca;
+	}
+	public void setMarca(String marca) {
+		this.marca = marca;
+	}
+	public String getModelo() {
+		return modelo;
+	}
+	public void setModelo(String modelo) {
+		this.modelo = modelo;
+	}
+	public int getAno() {
+		return ano;
+	}
+	public void setAno(int ano) {
+		this.ano = ano;
+	}
+	public String getCor() {
+		return cor;
+	}
+	public void setCor(String cor) {
+		this.cor = cor;
+	}
+
+}
