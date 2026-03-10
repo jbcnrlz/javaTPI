@@ -2,7 +2,7 @@ package dados;
 
 public class Carro {
 	
-	private String marca;
+	private Marca marca;
 	private String modelo;
 	private int ano;
 	private String cor;
@@ -16,7 +16,7 @@ public class Carro {
 	
 	@Override
 	public String toString() {
-		String retorno = this.getMarca() ;
+		String retorno = this.getMarca().getNome() ;
 		retorno = retorno + " - " + this.getModelo();
 		retorno = retorno + " - " + Integer.toString(this.getAno());
 		retorno = retorno + " - " + this.getCor();
@@ -38,12 +38,19 @@ public class Carro {
 		}
 	}
 	
-	public String getMarca() {
-		return marca;
+	public Marca getMarca() {
+		return this.marca;
 	}
+	
 	public void setMarca(String marca) {
-		this.marca = marca;
+		Marca m = new Marca(marca);
+		this.marca = m;
 	}
+	
+	public void setMarca(Marca m) {
+		this.marca = m;
+	}
+	
 	public String getModelo() {
 		return modelo;
 	}
