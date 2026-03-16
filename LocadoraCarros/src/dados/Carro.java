@@ -6,12 +6,22 @@ public class Carro {
 	private String modelo;
 	private int ano;
 	private String cor;
+	private static int qtdCriados = 0; 
+	
+	public static void aumentaCriados() {
+		Carro.qtdCriados += 1;
+	}
+	
+	public static int getQtdCriados() {
+		return Carro.qtdCriados;
+	}
 	
 	public Carro(String m, String mo, int ano, String cor) {
 		this.setMarca(m);
 		this.setModelo(mo);
 		this.setAno(ano);
 		this.setCor(cor);
+		Carro.aumentaCriados();
 	}
 	
 	@Override

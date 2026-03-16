@@ -16,6 +16,14 @@ public class Marca {
 		this.nome = nome;
 	}
 	
-	
+	@Override
+	public boolean equals(Object obj) {
+		Marca m = Marca.class.cast(obj);
+		if (this.getNome().equals(m.getNome())) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 }
