@@ -1,5 +1,8 @@
 package tela;
 
+import java.sql.Connection;
+
+import dados.ConectorBancoDeDados;
 import dados.Eletronico;
 import dados.Smartphone;
 import dados.Televisao;
@@ -7,6 +10,7 @@ import dados.Televisao;
 public class Principal {
 
 	public static void main(String[] args) {
+		/*
 		Eletronico el = new Televisao("Samsung",40,"4K",true);
 		System.out.println(el.exibirInformacoes());
 		
@@ -14,6 +18,14 @@ public class Principal {
 		System.out.println(el2.exibirInformacoes());
 		el2.ligar();
 		System.out.println(el2.exibirInformacoes());
+		*/
+		
+		ConectorBancoDeDados cdb = new ConectorBancoDeDados();
+		Connection cn = cdb.startConnection();
+		if (cn != null) {
+			System.out.println("Conectou");
+		}
+		
 	}
 	
 }
