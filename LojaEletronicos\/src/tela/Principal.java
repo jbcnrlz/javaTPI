@@ -24,6 +24,16 @@ public class Principal {
 		Connection cn = cdb.startConnection();
 		if (cn != null) {
 			System.out.println("Conectou");
+			Televisao t = new Televisao("Samsung",40,"4K",true);
+			System.out.println("Antes de salvar: ");
+			System.out.println(t.exibirInformacoes());
+			if (t.save(cn)) {
+				System.out.println("Salvo com sucesso!");
+			} else {
+				System.err.println("Erro ao salvar!");
+			}
+			System.out.println("Depois de salvar: ");
+			System.out.println(t.exibirInformacoes());			
 		}
 		
 	}
