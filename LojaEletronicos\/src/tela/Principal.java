@@ -3,9 +3,8 @@ package tela;
 import java.sql.Connection;
 
 import dados.ConectorBancoDeDados;
-import dados.Eletronico;
-import dados.Smartphone;
 import dados.Televisao;
+import excecoes.ResolucaoInvalidaException;
 
 public class Principal {
 
@@ -23,17 +22,21 @@ public class Principal {
 		ConectorBancoDeDados cdb = new ConectorBancoDeDados();
 		Connection cn = cdb.startConnection();
 		if (cn != null) {
-			System.out.println("Conectou");
-			Televisao t = new Televisao("Samsung",40,"4K",true);
-			System.out.println("Antes de salvar: ");
-			System.out.println(t.exibirInformacoes());
-			if (t.save(cn)) {
-				System.out.println("Salvo com sucesso!");
-			} else {
-				System.err.println("Erro ao salvar!");
+			try {
+				System.out.println("Conectou");
+				Televisao t = new Televisao("Samsung",40,"BATATA",true);
+				System.out.println("Antes de salvar: ");
+				System.out.println(t.exibirInformacoes());
+				if (t.save(cn)) {
+					System.out.println("Salvo com sucesso!");
+				} else {
+					System.err.println("Erro ao salvar!");
+				}
+				System.out.println("Depois de salvar: ");
+				System.out.println(t.exibirInformacoes());			
+			}catch (ResolucaoInvalidaException e) {
+				System.err.println("Você digitou uma resolução inválida!");
 			}
-			System.out.println("Depois de salvar: ");
-			System.out.println(t.exibirInformacoes());			
 		}
 		
 	}

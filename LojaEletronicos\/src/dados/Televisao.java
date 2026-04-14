@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+
+import excecoes.ResolucaoInvalidaException;
 
 public class Televisao implements Eletronico{
 	
@@ -54,14 +57,17 @@ public class Televisao implements Eletronico{
 			}
 			ps.execute();
 			this.id = this.buscarID(cn);
+		} catch (SQLIntegrityConstraintViolationException e) {
+			System.err.println("Erro de integridade dos dados!");
 		}catch (SQLException e) {
 			System.err.println("Erro ao fazer o insert");
+			e.printStackTrace();
 			return false;
 		}
 		return true;
 	}
 	
-	public Televisao(String m, int p, String r, boolean s) {
+	public Televisao(String m, int p, String r, boolean s) throws ResolucaoInvalidaException {
 		this.setMarca(m);
 		this.setPolegadas(p);
 		this.setResolucao(r);
@@ -85,8 +91,17 @@ public class Televisao implements Eletronico{
 	public String getResolucao() {
 		return resolucao;
 	}
-	public void setResolucao(String resolucao) {
-		this.resolucao = resolucao;
+	public void setResolucao(String resolucao) throws ResolucaoInvalidaException{
+		if (
+			(resolucao.toUpperCase().equals("SD")) || (resolucao.toUpperCase().equals("HD")) ||
+			(resolucao.toUpperCase().equals("FULL HD") || (resolucao.toUpperCase().equals("2K"))) ||
+			(resolucao.toUpperCase().equals("4K")) || (resolucao.toUpperCase().equals("8K"))
+		){
+			this.resolucao = resolucao;
+		} else {
+			ResolucaoInvalidaException re = new ResolucaoInvalidaException("A resolução "+resolucao+ "é invalida!");;
+			throw re;
+		}
 	}
 	public boolean isLigado() {
 		return ligado;
