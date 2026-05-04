@@ -10,9 +10,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.Color;
+import java.awt.Component;
+
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.JTextArea;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -42,6 +47,10 @@ public class TelaCadastroJogos extends JInternalFrame {
 		});
 	}
 
+	public void sair() {
+		this.dispose();
+	}
+	
 	/**
 	 * Create the frame.
 	 */
@@ -76,10 +85,19 @@ public class TelaCadastroJogos extends JInternalFrame {
 				String regras;
 				nome = nomeJogo.getText();
 				regras = regrasJogo.getText();
-				Jogo j = new Jogo(nome,regras);
+				Jogo j = new Jogo(regras,nome);
 				JogoDAO jd = new JogoDAO();
 				if (jd.salvar(j)) {
 					JOptionPane.showMessageDialog(null,"Salvou com sucesso!");
+					
+					Component c = (Component) arg0.getSource();
+					TelaCadastroJogos tj = (TelaCadastroJogos) SwingUtilities.getAncestorOfClass(
+						TelaCadastroJogos.class,
+						c
+					);
+					
+					tj.dispose();
+					
 				} else {
 					JOptionPane.showMessageDialog(null, "Não salvou!");
 				}

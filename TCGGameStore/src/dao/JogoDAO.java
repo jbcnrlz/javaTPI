@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Connection;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.LinkedList;
 
 import dados.Jogo;
 
@@ -83,4 +84,23 @@ public class JogoDAO implements Persistir<Jogo> {
 		return -1;
 	}
 
+	public static LinkedList<Jogo> buscarTodos(){
+		LinkedList<Jogo> llj = new LinkedList<>();
+		Connection cn = GestorDeConexao.getConection();
+		try {
+			PreparedStatement ps = cn.prepareStatement(
+				"SELECT id, nome, regras FROM jogo;"
+			);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				Jogo j = new Jogo(rs.getString(3), rs.getString(2));
+				j.setId(rs.getInt(1));
+				llj.add(j);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return llj;
+	}
+	
 }

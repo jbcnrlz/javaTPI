@@ -68,5 +68,19 @@ public class TelaPrincipal extends JFrame {
 		});
 		mnNewMenu.add(mntmJogos);
 		
+		JMenu mnVisualizar = new JMenu("Visualizar");
+		menuBar.add(mnVisualizar);
+		
+		JMenuItem mntmJogos_1 = new JMenuItem("Jogos");
+		mntmJogos_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JInternalFrame jf = new ListaJogos();
+				controleTelas.add(jf);
+				jf.setVisible(true);
+				
+			}
+		});
+		mnVisualizar.add(mntmJogos_1);
+		
 	}
 }
