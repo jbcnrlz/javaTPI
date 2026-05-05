@@ -103,4 +103,23 @@ public class JogoDAO implements Persistir<Jogo> {
 		return llj;
 	}
 	
+	public static Jogo buscarPorID(int id) {
+		Jogo j = null;
+		Connection cn = GestorDeConexao.getConection();
+		try {
+			PreparedStatement ps = cn.prepareStatement(
+				"SELECT id, nome, regras FROM jogo where id = ?;"
+			);
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				j = new Jogo(rs.getString(3),rs.getString(2));
+				j.setId(rs.getInt(1));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return j;
+	}
+	
 }

@@ -100,6 +100,23 @@ public class ListaJogos extends JInternalFrame {
 		panel.add(btnNewButton, "flowx,cell 0 2,alignx right");
 		
 		btnNewButton_1 = new JButton("Editar");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int linhaSelecionada = table.getSelectedRow();
+				Jogo j = ll.get(linhaSelecionada);
+				
+				Component c = (Component) arg0.getSource();
+				JDesktopPane jp = (JDesktopPane) SwingUtilities.getAncestorOfClass(
+					JDesktopPane.class,
+					c
+				);
+				
+				JInternalFrame jif = new TelaCadastroJogos(j.getId());
+				jp.add(jif);
+				jif.setVisible(true);
+				
+			}
+		});
 		panel.add(btnNewButton_1, "cell 0 2,alignx right");
 		
 		btnNewButton_2 = new JButton("Excluir");
