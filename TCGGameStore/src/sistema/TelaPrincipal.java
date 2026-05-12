@@ -82,5 +82,15 @@ public class TelaPrincipal extends JFrame {
 		});
 		mnVisualizar.add(mntmJogos_1);
 		
+		JMenuItem mntmGenero = new JMenuItem("Genero");
+		mntmGenero.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JInternalFrame jf = new ListaGeneros();
+				controleTelas.add(jf);
+				jf.setVisible(true);
+			}
+		});
+		mnVisualizar.add(mntmGenero);
+		
 	}
 }
