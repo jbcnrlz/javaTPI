@@ -5,18 +5,23 @@ import java.awt.EventQueue;
 import javax.swing.JInternalFrame;
 import javax.swing.JPanel;
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.GridLayout;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.table.AbstractTableModel;
 
 import javax.swing.JButton;
+import javax.swing.JDesktopPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import java.util.LinkedList;
 import dados.Genero;
 import dao.GeneroDAO;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ListaGeneros extends JInternalFrame {
 
@@ -73,6 +78,21 @@ public class ListaGeneros extends JInternalFrame {
 		scrollPane.setViewportView(table);
 		
 		JButton btnNovo = new JButton("Novo");
+		btnNovo.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				Component c = (Component) arg0.getSource();
+				JDesktopPane jp = (JDesktopPane) SwingUtilities.getAncestorOfClass(
+					JDesktopPane.class,
+					c
+				);
+				
+				JInternalFrame jif = new TelaCadastroGenero();
+				jp.add(jif);
+				jif.setVisible(true);
+				
+			}
+		});
 		panel.add(btnNovo, "flowx,cell 0 2");
 		
 		JButton btnEditar = new JButton("Editar");
