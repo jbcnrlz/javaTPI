@@ -15,6 +15,7 @@ import java.awt.Component;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.JTextArea;
+import javax.swing.AbstractListModel;
 import javax.swing.JButton;
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
@@ -22,10 +23,16 @@ import javax.swing.JFrame;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
+import dados.Genero;
 import dados.Jogo;
+import dao.GeneroDAO;
 import dao.GestorDeConexao;
 import dao.JogoDAO;
 import java.sql.Connection;
+import java.util.LinkedList;
+
+import javax.swing.JList;
+import javax.swing.JScrollPane;
 
 public class TelaCadastroJogos extends JInternalFrame {
 
@@ -69,24 +76,37 @@ public class TelaCadastroJogos extends JInternalFrame {
 		setIconifiable(true);
 		setClosable(true);
 		getContentPane().setBackground(new Color(238, 238, 238));
-		setBounds(100, 100, 450, 219);
+		setBounds(100, 100, 450, 437);
 		
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
-		panel.setLayout(new MigLayout("", "[][grow]", "[][grow][][][][][]"));
+		panel.setLayout(new MigLayout("", "[grow][grow]", "[][][grow][grow][grow][][][][][]"));
 		
 		JLabel lblNewLabel = new JLabel("Nome:");
-		panel.add(lblNewLabel, "cell 0 0,alignx trailing");
+		panel.add(lblNewLabel, "cell 0 0,alignx left");
 		
 		nomeJogo = new JTextField();
 		panel.add(nomeJogo, "cell 1 0,growx");
 		nomeJogo.setColumns(10);
 		
+		JLabel lblGenero = new JLabel("Genero:");
+		panel.add(lblGenero, "cell 0 1");
+		
+		JScrollPane scrollPane = new JScrollPane();
+		panel.add(scrollPane, "cell 0 2 2 1,grow");
+		
+		JList<Genero> list = new JList<>();
+		scrollPane.setViewportView(list);
+		
+		LinkedList<Genero> ges = GeneroDAO.buscarTodos();
+		AbstractListModel<Genero> glm = new GeneroListModel(ges);
+		list.setModel(glm);		
+		
 		JLabel lblRegras = new JLabel("Regras:");
-		panel.add(lblRegras, "cell 0 1");
+		panel.add(lblRegras, "cell 0 4");
 		
 		regrasJogo = new JTextArea();
-		panel.add(regrasJogo, "cell 0 2 2 4,grow");
+		panel.add(regrasJogo, "cell 0 5 2 4,grow");
 		
 		JButton btnSalvar = new JButton("Salvar");
 		btnSalvar.addActionListener(new ActionListener() {
@@ -98,6 +118,9 @@ public class TelaCadastroJogos extends JInternalFrame {
 				Jogo j;
 				if (jogoEditar == null) {
 					j = new Jogo(regras,nome);
+					for (int idx : list.getSelectedIndices()) {
+						j.vincularGenero(ges.get(idx));
+					}
 				} else {
 					j = jogoEditar;
 					j.setNome(nome);
@@ -133,7 +156,7 @@ public class TelaCadastroJogos extends JInternalFrame {
 				}
 			}
 		});
-		panel.add(btnSalvar, "cell 1 6,alignx right");
+		panel.add(btnSalvar, "cell 1 9,alignx right");
 	}
 
 }

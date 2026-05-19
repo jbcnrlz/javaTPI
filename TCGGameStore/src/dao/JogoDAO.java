@@ -7,10 +7,29 @@ import java.sql.Connection;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.LinkedList;
 
+import dados.Genero;
 import dados.Jogo;
 
 public class JogoDAO implements Persistir<Jogo> {
 
+	 public boolean salvarGenerosRelacionados(int[] ids, Jogo j) {
+		Connection cn = GestorDeConexao.getConection();
+		try {
+			for (int i = 0;i < ids.length;i+=1) {
+				PreparedStatement ps = cn.prepareStatement(
+					"INSERT INTO jogo_genero(id_jogo,id_genero) "+
+					"values(?,?);"
+				);
+				ps.setInt(1, j.getId());
+				ps.setInt(2, ids[i]);
+				ps.execute();
+			}
+		}catch (SQLException e) {
+			return false;
+		}
+		 return true;
+	 }
+	
 	@Override
 	public boolean salvar(Jogo objeto) {
 		Connection cn = GestorDeConexao.getConection();
@@ -24,6 +43,11 @@ public class JogoDAO implements Persistir<Jogo> {
 				ps.setString(2, objeto.getNome());
 				ps.execute();
 				objeto.setId(this.buscarIDBanco(objeto));
+				int idsGeneros[] = new int[objeto.getGeneros().size()];
+				for (int i = 0;i < objeto.getGeneros().size();i++) {
+					idsGeneros[i] = objeto.getGeneros().get(i).getId();
+				}
+				this.salvarGenerosRelacionados(idsGeneros,objeto);
 			} else {
 				PreparedStatement ps = cn.prepareStatement(
 						"UPDATE jogo SET regras = ?, nome = ?"+

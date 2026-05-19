@@ -1,15 +1,31 @@
 package dados;
 
+import java.util.LinkedList;
+
 public class Jogo {
 	
 	private int id;
 	private String regras;
 	private String nome;
+	private LinkedList<Genero> generos;
 	
 	public Jogo(String r, String n) {
 		this.setRegras(r);
 		this.setNome(n);
 		this.setId(-1);
+		this.generos = new LinkedList<>();
+	}
+	
+	public void vincularGenero(Genero g) {
+		this.generos.add(g);
+	}
+	
+	public void desvincularGenero(Genero g) {
+		this.generos.remove(g);
+	}
+	
+	public LinkedList<Genero> getGeneros(){
+		return this.generos;
 	}
 	
 	public int getId() {

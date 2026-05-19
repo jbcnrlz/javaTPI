@@ -28,5 +28,8 @@ public class Genero {
 		this.nome = nome;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return this.getNome();
+	}
 }
